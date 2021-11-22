@@ -2,12 +2,18 @@ package br.com.zup.gerenciadorDeContas.conta.dto;
 
 import br.com.zup.gerenciadorDeContas.conta.enums.Tipo;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class CadastroContaDTO {
+    @Size(min = 2, message = "O nome deve conter pelo menos 2 caracteres")
+    @NotBlank(message = "Campo Obrigatório!")
     private String nome;
+    @DecimalMin("0.01")
     private double valor;
+    @NotNull(message = "Campo Obrigatório!")
     private Tipo tipo;
+    @NotNull(message = "Campo Obrigatório!")
     private LocalDate dataDeVencimento;
 
     public CadastroContaDTO() {
