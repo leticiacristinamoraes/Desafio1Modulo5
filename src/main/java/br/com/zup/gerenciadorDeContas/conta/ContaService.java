@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,5 +31,24 @@ public class ContaService {
     public List<Conta> exibirContas() {
         Iterable<Conta> contas = contaRepository.findAll();
         return (List<Conta>) contas;
+    }
+
+    public Conta buscarContaById(int id){
+        for (Conta contaReferencia : contaRepository.findAll()){
+            if (contaReferencia.getId() == id){
+                return contaReferencia;
+            }
+        }
+        throw new RuntimeException("A conta informada não foi encontrada!");
+    }
+
+    public Conta atualizarConta(int id){
+        Conta contaAtualizar = buscarContaById(id);
+        contaAtualizar.setStatus(Status.PAGO);
+        contaAtualizar.setDataDePagamento(LocalDateTime.now());
+
+        contaRepository.save(contaAtualizar);
+
+        return contaAtualizar;
     }
 }
